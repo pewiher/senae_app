@@ -9,7 +9,8 @@ Future pushToPage(BuildContext context, String route, [dynamic args]) async =>
       arguments: args,
     );
 
-Future pushAndReplaceToPage(BuildContext context, String route, [dynamic args]) async {
+Future pushAndReplaceToPage(BuildContext context, String route,
+    [dynamic args]) async {
   await Navigator.pushReplacementNamed(
     context,
     route,

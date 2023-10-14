@@ -1,7 +1,11 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:senae_app/data/repository/theme_preferences.dart';
 import 'package:senae_app/di/dependencies.dart';
+import 'package:senae_app/domain/usecases/theme.dart';
 import 'package:senae_app/routes/routes.dart';
 import 'package:senae_app/ui/network_connectivity_bloc/network_connectivity_bloc.dart';
 
@@ -26,11 +30,15 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Reinspet',
+          title: 'APPSENAE',
           builder: BotToastInit(),
           //theme: ThemesToe.getThemeDefault(),
           initialRoute: '/',
           onGenerateRoute: AppRouter().onGenerateRoute,
+          theme: ThemeData(
+            brightness: Brightness.dark,
+            primaryColor: Colors.lightBlue[800],
+          ),
         ),
       ),
     );

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 27 27">
+  <g id="Grupo_567" data-name="Grupo 567" transform="translate(-51 -239)">
+    <g id="Rectángulo_203" data-name="Rectángulo 203" transform="translate(51 239)" fill="#fff" stroke="#afc2d1" stroke-width="1">
+      <rect width="27" height="27" rx="6" stroke="none"/>
+      <rect x="0.5" y="0.5" width="26" height="26" rx="5.5" fill="none"/>
+    </g>
+    <g id="Grupo_564" data-name="Grupo 564" transform="translate(-162.001 -45.801)">
+      <path id="Trazado_222" data-name="Trazado 222" d="M236,292.769a2.447,2.447,0,0,1-.852,1.425q-4.551,4.525-9.086,9.066a1.849,1.849,0,0,1-1.532.592,1.713,1.713,0,0,1-1.015-.434c-.078-.07-.153-.145-.228-.219-1.479-1.476-2.953-2.958-4.44-4.425a2.467,2.467,0,0,1-.848-1.409v-.386a4.188,4.188,0,0,1,.317-.8,1.786,1.786,0,0,1,2.683-.335c.218.195.419.408.626.614q1.467,1.463,2.931,2.928a1.094,1.094,0,0,1,.111.158l.077.01a1.03,1.03,0,0,1,.116-.177q3.992-3.989,7.985-7.977a1.849,1.849,0,0,1,1.481-.591,1.772,1.772,0,0,1,1.643,1.5c.006.039.02.078.03.116Z" transform="translate(0)" fill="#ff7100"/>
+    </g>
+  </g>
+</svg>

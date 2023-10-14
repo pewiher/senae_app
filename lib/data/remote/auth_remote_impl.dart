@@ -1,6 +1,6 @@
 import 'package:senae_app/data/repository/auth_repository.dart';
 
-class AuthRemoteImpl implements AuthRepository {
+abstract class AuthRemoteImpl implements AuthRepository {
   @override
   Future<bool> login({
     required Comparable<String> email,

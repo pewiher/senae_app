@@ -7,9 +7,9 @@ import 'package:senae_app/domain/usecases/login_usecases.dart';
 List<RepositoryProvider> buildRepositories() {
   return [
     //Repositories
-    RepositoryProvider<AuthRepository>(
-      create: (_) => AuthRemoteImpl(),
-    ),
+    // RepositoryProvider<AuthRepository>(
+    // create: (_) => AuthRemoteImpl(),
+    //),
 
     //UseCases
     RepositoryProvider<LoginUseCases>(
