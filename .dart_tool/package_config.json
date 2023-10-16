@@ -206,6 +206,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "intl",
+      "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/intl-0.18.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "js",
       "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.6.7",
       "packageUri": "lib/",
@@ -242,6 +248,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "mailer",
+      "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/mailer-6.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "matcher",
       "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.16",
       "packageUri": "lib/",
@@ -264,6 +276,12 @@
       "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.9.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "mime",
+      "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
     },
     {
       "name": "nested",
@@ -378,6 +396,12 @@
       "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/qr_flutter-4.1.0",
       "packageUri": "lib/",
       "languageVersion": "2.19"
+    },
+    {
+      "name": "random_string",
+      "rootUri": "file:///C:/Users/svillalta/AppData/Local/Pub/Cache/hosted/pub.dev/random_string-2.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
@@ -524,7 +548,7 @@
       "languageVersion": "3.1"
     }
   ],
-  "generated": "2023-10-13T22:57:07.722649Z",
+  "generated": "2023-10-15T20:43:30.502856Z",
   "generator": "pub",
   "generatorVersion": "3.1.2"
 }

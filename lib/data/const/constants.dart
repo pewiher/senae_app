@@ -3,4 +3,5 @@ class Constants {
   static String token = "";
   static String email = "";
   static String full_name = "";
+  static String LineaNegocio = "";
 }

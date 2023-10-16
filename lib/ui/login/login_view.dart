@@ -1,10 +1,16 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server/hotmail.dart';
 import 'package:provider/provider.dart';
 import 'package:senae_app/data/repository/theme_preferences.dart';
+import 'package:senae_app/domain/models/auth/auth_user.dart';
+import 'package:senae_app/domain/models/data_result.dart';
 import 'package:senae_app/domain/usecases/login_usecases.dart';
 import 'package:senae_app/ui/home/home.dart';
 import 'package:senae_app/ui/login/login_view_model.dart';
+import 'package:senae_app/ui/widgets/CustomDialog.dart';
 import 'package:senae_app/ui/widgets/UsersBloqueado.dart';
 
 class LoginView extends StatelessWidget {
@@ -21,15 +27,24 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class _LoginWidget extends StatelessWidget {
+class _LoginWidget extends StatefulWidget {
   const _LoginWidget({Key? key}) : super(key: key);
 
   @override
+  State<_LoginWidget> createState() => _LoginWidgetState();
+}
+
+class _LoginWidgetState extends State<_LoginWidget> {
+  final TextEditingController _emailController = TextEditingController();
+
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
-    bool obs = false;
     // double screenWidth = MediaQuery.of(context).size.width;
     //double screenheight = MediaQuery.of(context).size.height;
 
+    final obscureText = context.watch<LoginViewModel>().obscureText;
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 252, 252),
       body: Padding(
@@ -113,6 +128,7 @@ class _LoginWidget extends StatelessWidget {
                       Stack(
                         children: <Widget>[
                           TextFormField(
+                            controller: _emailController,
                             style: const TextStyle(
                               fontSize: 20,
                               color: Color(0xff004172),
@@ -161,11 +177,12 @@ class _LoginWidget extends StatelessWidget {
                   child: //Stack(
                       // children: <Widget>[
                       TextFormField(
+                    controller: _passwordController,
                     style: const TextStyle(
                       fontSize: 20,
                       color: Color(0xff004172),
                     ),
-                    obscureText: true,
+                    obscureText: obscureText,
                     decoration: InputDecoration(
                         border: const OutlineInputBorder(),
                         enabledBorder: const OutlineInputBorder(
@@ -184,9 +201,9 @@ class _LoginWidget extends StatelessWidget {
                             Icons.remove_red_eye_outlined,
                             color: Color(0xff004172),
                           ),
-                          onPressed: () {
-                            obs == true ? obs = true : obs = false;
-                          },
+                          onPressed: () => context
+                              .read<LoginViewModel>()
+                              .changeObscureText(!obscureText),
                         )),
                   ),
                   // ],
@@ -206,29 +223,8 @@ class _LoginWidget extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6.0),
                           ),
                         ),
-                        MaterialButton(
-                          minWidth: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.26,
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    const MyHomePage(
-                                      title: 'AppSenae',
-                                    ));
-                            //UsersBloqueado());
-                            // CustomDialog());
-                          },
-                          child: const Text(
-                            'INGRESAR',
-                            style: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 14,
-                              color: Color(0xffffffff),
-                            ),
-                            textAlign: TextAlign.center,
-                            softWrap: false,
-                          ),
+                        _LoginUserInformationButton(
+                          onPressed: () => _loginAction(),
                         ),
                       ],
                     ),
@@ -314,6 +310,74 @@ class _LoginWidget extends StatelessWidget {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  _loginAction() async {
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      return;
+    }
+    final result = await context.read<LoginViewModel>().login(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+    if (result.state == ResultState.exception) return;
+    _goToDialog();
+  }
+
+  _goToDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const CustomDialog(),
+    );
+  }
+}
+
+class _LoginUserInformationButton extends StatelessWidget {
+  const _LoginUserInformationButton({Key? key, required this.onPressed})
+      : super(key: key);
+
+  final void Function() onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Selector<LoginViewModel, DataResult<AuthUser>>(
+      builder: (_, dataResult, child) {
+        switch (dataResult.state) {
+          case ResultState.exception:
+          case ResultState.initial:
+            if (dataResult.state == ResultState.exception) {
+              BotToast.showText(text: "Error");
+            }
+
+            return child!;
+          case ResultState.success:
+            return child!;
+          case ResultState.loading:
+            //Modificar  cargando
+            return const Center(
+              child: CircularProgressIndicator(
+                color: Colors.orange,
+              ),
+            );
+        }
+      },
+      selector: (_, vm) => vm.resultLogin,
+      child: MaterialButton(
+        minWidth: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.26,
+        onPressed: () => onPressed(),
+        child: const Text(
+          'INGRESAR',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 14,
+            color: Color(0xffffffff),
+          ),
+          textAlign: TextAlign.center,
+          softWrap: false,
         ),
       ),
     );

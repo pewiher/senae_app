@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:senae_app/ui/home/home.dart';
 import 'package:senae_app/ui/login/login_view.dart';
 
 class AppRouter {
   Route<dynamic>? onGenerateRoute(settings) {
     switch (settings.name) {
       case '/':
-        return _goToRoute(const LoginView(), const RouteSettings(name: "/login-view"));
+        return _goToRoute(
+            const LoginView(), const RouteSettings(name: "/login-view"));
+
+      case '/home':
+        return _goToRoute(
+            const MyHomePage(title: ''), const RouteSettings(name: "/home"));
 
       default:
         return MaterialPageRoute(builder: (context) => const ErrorView());
     }
   }
 
-  MaterialPageRoute<dynamic> _goToRoute(Widget widget, [RouteSettings? settings]) {
+  MaterialPageRoute<dynamic> _goToRoute(Widget widget,
+      [RouteSettings? settings]) {
     return MaterialPageRoute(settings: settings, builder: (context) => widget);
   }
 }

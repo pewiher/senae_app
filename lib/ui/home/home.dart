@@ -25,18 +25,18 @@ class _MyHomePageState extends State<MyHomePage> {
   // final _formKey = GlobalKey<FormState>();
   // ButtonState stateTextWithIcon = ButtonState.idle;
   int _selectedDestination = 0;
-  String token = "";
-  String correo = "";
-
-  String NombreUsuario = "";
+  late String token = "";
+  late String correo = "";
+  late String LineaNegocio = "";
+  late String NombreUsuario = "";
   bool isLoadView = false;
   final List<Widget> _viewApp = [];
 
   @override
   void initState() {
     _loadView();
-    NombreUsuario = 'SAYDA VILLALTA'; // Constants.full_name;
     loadPagina();
+    // NombreUsuario = Constants.full_name;
     setState(() {});
     super.initState();
   }
@@ -356,10 +356,10 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            '¡Hola, bienvenida', // ${NombreUsuario}
+            '¡Hola, bienvenida  ', // ${NombreUsuario}
             style: TextStyle(
               fontFamily: 'Roboto',
-              fontSize: 14,
+              fontSize: 18,
               color: Color(0xff707070),
             ),
             textAlign: TextAlign.center,
@@ -378,12 +378,6 @@ class _MyHomePageState extends State<MyHomePage> {
               softWrap: false,
             ),
           ),
-
-          /*  Expanded(
-          child: SvgPicture.asset(
-            'assets/svg/LogoFarletza2.svg',
-          ),
-        ) */
         ],
       ),
     );
@@ -400,15 +394,6 @@ class _MyHomePageState extends State<MyHomePage> {
               'assets/svg/hambmenu.svg',
             ),
           ),
-          /*   Container(
-              margin: const EdgeInsets.only(left: 15),
-              child: const Text(
-                'hola',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0,
-                    color: Color.fromARGB(255, 29, 22, 22)),
-              )) */
         ],
       ),
     );
@@ -416,126 +401,196 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadPagina() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    LineaNegocio = prefs.getString("LineaNegocio") ?? "";
     token = prefs.getString("token") ?? "";
-    correo = prefs.getString("email") ?? "sayda@farleza.com.ec";
+    correo = prefs.getString("email") ?? "";
+    NombreUsuario = prefs.getString("full_name") ?? "";
+
     setState(() {});
   }
 
-  void _loadView() {
-    //   final opciones = Constants.opcionesModel;
+  void _loadView() async {
     //  final opcionvenes = Constants.nombreVendedor;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    LineaNegocio = prefs.getString("LineaNegocio") ?? "";
 
     //opciones.forEach((opcionesModel) {
-    //if (opcionesModel.codigoVista.contains("IMP")) {
-    _viewApp.add(ListTile(
-      selected: _selectedDestination == 0,
-      leading: SvgPicture.asset('assets/svg/campana_gris.svg',
-          color: const Color(0xff004172)),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
-      title: const Text(
-        'Notificaciones',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 15,
-          color: Color(0xff004172),
-          fontWeight: FontWeight.w700,
+    if (LineaNegocio.contains("IMP")) {
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 0,
+        leading: SvgPicture.asset('assets/svg/campana_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Notificaciones',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      ),
-      onTap: () {
-        MaterialPageRoute route;
-        route = MaterialPageRoute(
-            builder: (BuildContext context) => notificacionIMPPage());
-        Navigator.push(context, route);
-      },
-    ));
-    _viewApp.add(ListTile(
-      selected: _selectedDestination == 1,
-      leading: SvgPicture.asset('assets/svg/lista_ubicacion_gris.svg',
-          color: const Color(0xff004172)),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
-      title: const Text(
-        'Crear Itinerario',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 15,
-          color: Color(0xff004172),
-          fontWeight: FontWeight.w700,
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 1,
+        leading: SvgPicture.asset('assets/svg/lista_ubicacion_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Crear Itinerario',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      ),
-      onTap: () {
-        MaterialPageRoute route;
-        route = MaterialPageRoute(
-            builder: (BuildContext context) => notificacionIMPPage());
-        Navigator.push(context, route);
-      },
-    ));
-    _viewApp.add(ListTile(
-      selected: _selectedDestination == 2,
-      leading: SvgPicture.asset(
-        'assets/svg/libreta_visto_gris.svg',
-        color: const Color(0xff004172),
-      ),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
-      title: const Text(
-        'Asignar Itinerario',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 15,
-          color: Color(0xff004172),
-          fontWeight: FontWeight.w700,
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 2,
+        leading: SvgPicture.asset(
+          'assets/svg/libreta_visto_gris.svg',
+          color: const Color(0xff004172),
         ),
-      ),
-      onTap: () {
-        MaterialPageRoute route;
-        route = MaterialPageRoute(
-            builder: (BuildContext context) => notificacionIMPPage());
-        Navigator.push(context, route);
-      },
-    ));
-    _viewApp.add(ListTile(
-      selected: _selectedDestination == 3,
-      leading: SvgPicture.asset('assets/svg/transmision_gris.svg',
-          color: const Color(0xff004172)),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
-      title: const Text(
-        'Transmitir Senae',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 15,
-          color: Color(0xff004172),
-          fontWeight: FontWeight.w700,
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Asignar Itinerario',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      ),
-      onTap: () {
-        MaterialPageRoute route;
-        route = MaterialPageRoute(
-            builder: (BuildContext context) => notificacionIMPPage());
-        Navigator.push(context, route);
-      },
-    ));
-    _viewApp.add(ListTile(
-      selected: _selectedDestination == 4,
-      leading: SvgPicture.asset('assets/svg/hoja_reloj_gris.svg',
-          color: const Color(0xff004172)),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
-      title: const Text(
-        'Transmisiones realizadas',
-        style: TextStyle(
-          fontFamily: 'Roboto',
-          fontSize: 15,
-          color: Color(0xff004172),
-          fontWeight: FontWeight.w700,
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 3,
+        leading: SvgPicture.asset('assets/svg/transmision_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Transmitir Senae',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
         ),
-      ),
-      onTap: () {
-        MaterialPageRoute route;
-        route = MaterialPageRoute(
-            builder: (BuildContext context) => notificacionIMPPage());
-        Navigator.push(context, route);
-      },
-    ));
-    //}
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 4,
+        leading: SvgPicture.asset('assets/svg/hoja_reloj_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Transmisiones realizadas',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      //}
+    }
+    if (LineaNegocio.contains("EXP")) {
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 0,
+        leading: SvgPicture.asset('assets/svg/campana_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Notificaciones',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 1,
+        leading: SvgPicture.asset('assets/svg/transmision_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Transmitir Senae',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+      _viewApp.add(ListTile(
+        selected: _selectedDestination == 2,
+        leading: SvgPicture.asset('assets/svg/hoja_reloj_gris.svg',
+            color: const Color(0xff004172)),
+        trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
+        title: const Text(
+          'Transmisiones realizadas',
+          style: TextStyle(
+            fontFamily: 'Roboto',
+            fontSize: 15,
+            color: Color(0xff004172),
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onTap: () {
+          MaterialPageRoute route;
+          route = MaterialPageRoute(
+              builder: (BuildContext context) => notificacionIMPPage());
+          Navigator.push(context, route);
+        },
+      ));
+    }
   }
 
   // );
