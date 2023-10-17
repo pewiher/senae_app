@@ -1,14 +1,16 @@
 import 'dart:math';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/hotmail.dart';
 import 'package:random_string/random_string.dart';
+import 'package:senae_app/data/const/constants.dart';
 import 'package:senae_app/data/repository/auth_repository.dart';
 import 'package:senae_app/domain/models/auth/auth_user.dart';
+import 'package:senae_app/domain/models/auth/auth_userError.dart';
 import 'package:senae_app/domain/models/data_result.dart';
 import 'package:senae_app/domain/models/senae_client.dart';
 import 'package:senae_app/domain/models/senae_exception.dart';
+import 'package:senae_app/domain/usecases/login_usecases.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRemoteImpl implements AuthRepository {
@@ -26,14 +28,25 @@ class AuthRemoteImpl implements AuthRepository {
         "email": email,
         "password": password,
       };
-      prefs.setString("email", email.toString());
 
       final result = await _client.post('/auth/sign_in', data: data);
-      final code = randomNumeric(4);
 
-      prefs.setString("CODE", code.toString());
-      //Funcion para enviar el correo
-      _sendEmail(email, code);
+      if (result.statusCode == 200) {
+        final code = randomNumeric(4);
+        prefs.setString("CODE", code.toString());
+        prefs.setString("email", email.toString());
+        prefs.setString(
+            "access", AuthUser.fromJson(result.data["data"]).access);
+        prefs.setString(
+            "refresh", AuthUser.fromJson(result.data["data"]).refresh);
+        prefs.setString(
+            "full_name", AuthUser.fromJson(result.data["data"]).fullName);
+        prefs.setString("lineaNegocio",
+            AuthUser.fromJson(result.data["data"]).lineaNegocio);
+
+        //Funcion para enviar el correo
+        _sendEmail(email, code);
+      }
       return DataResult.success(AuthUser.fromJson(result.data["data"]));
     } catch (e) {
       //QUEMADO
@@ -57,15 +70,16 @@ class AuthRemoteImpl implements AuthRepository {
           lineaNegocio: 'IMP',
         ),
       ); */
+
       return DataResult.exception(
           SenaeException.fromException(e, StackTrace.current));
     }
   }
 
   @override
-  Future<void> logOut() {
+  Future<void> logOut() async {
     // TODO: implement logOut
-    throw UnimplementedError();
+    // throw UnimplementedError();
   }
 
   @override

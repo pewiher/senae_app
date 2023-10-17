@@ -20,6 +20,11 @@ class DataResult<T> {
         data: data,
       );
 
+  factory DataResult.error(T data) => DataResult._(
+        state: ResultState.exception,
+        data: data,
+      );
+
   factory DataResult.exception(SenaeException exception) => DataResult._(
         state: ResultState.exception,
         exception: exception,

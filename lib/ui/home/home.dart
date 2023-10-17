@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:senae_app/data/const/constants.dart';
 import 'package:senae_app/ui/Importaciones/notificaciones.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,8 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _loadView();
     loadPagina();
+    _loadView();
+
     // NombreUsuario = Constants.full_name;
     setState(() {});
     super.initState();
@@ -71,17 +73,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: Text(
-            "Farletza",
-            style: GoogleFonts.lato(
-                textStyle: const TextStyle(
-                    color: Color(0xff004172),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16)),
+          title: Center(
+            child: SvgPicture.asset(
+              'assets/svg/logo_Farletza.svg',
+              height: MediaQuery.of(context).size.width * 0.10,
+              width: MediaQuery.of(context).size.width * 0.10,
+            ),
           ),
           leading: IconButton(
             icon: SvgPicture.asset(
@@ -121,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     DrawerHeader(
                       padding: const EdgeInsets.all(5),
                       decoration: const BoxDecoration(
-                        color: Color.fromARGB(255, 253, 254, 255),
+                        color: Colors.grey,
                       ),
                       child: Center(
                         child: Column(
@@ -173,9 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     const Divider(
                       height: 1,
                       thickness: 1,
+                      color: Colors.black,
                     ),
                     ListTile(
-                      selected: _selectedDestination == 5,
+                      selected: _selectedDestination == 6,
                       leading:
                           Icon(MdiIcons.logout, color: const Color(0xff004172)),
                       trailing: const Icon(Icons.arrow_forward_ios,
@@ -190,9 +194,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       onTap: () => {
-                        // context
-                        //    .read<AuthenticationBloc>()
-                        //    .add(AuthenticationLogoutRequested())
+                        //  context
+                        //   .read<AuthenticationBloc>()
+                        //  .add(AuthenticationLogoutRequested())
                       },
                     ),
                   ],
@@ -310,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     color: Colors.black,
                   ),
                   ListTile(
-                    selected: _selectedDestination == 5,
+                    selected: _selectedDestination == 6,
                     leading:
                         Icon(MdiIcons.logout, color: const Color(0xff004172)),
                     trailing: const Icon(Icons.arrow_forward_ios,
@@ -350,36 +354,57 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _home() {
-    return Container(
-      color: Colors.white,
-      child: const Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            '¡Hola, bienvenida  ', // ${NombreUsuario}
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              fontSize: 18,
-              color: Color(0xff707070),
-            ),
-            textAlign: TextAlign.center,
-            softWrap: false,
-          ),
-          Align(
-            alignment: Alignment(0.0, -0.0),
-            child: Text(
-              'Copyright © Farletza 2023',
+    final _nombreUsuarioLog = NombreUsuario;
+    return new Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+            new Text(
+              'Hola, Bienvenida $_nombreUsuarioLog',
               style: TextStyle(
                 fontFamily: 'Roboto',
-                fontSize: 16,
-                color: Color(0xff707070),
+                fontSize: 20,
+                color: Color(0xff004172),
+                fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center,
-              softWrap: false,
             ),
-          ),
-        ],
-      ),
+            SizedBox(height: 50),
+            Text(
+              'Seleccione la opcion que desea realizar desde el menu',
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                fontSize: 15,
+                color: Color(0xff004172),
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 50),
+            Center(
+              child: SvgPicture.asset(
+                'assets/svg/LogoFarletza2.svg',
+                height: MediaQuery.of(context).size.width * 0.25,
+                width: MediaQuery.of(context).size.width * 0.25,
+              ),
+            ),
+            SizedBox(height: 80),
+            const Align(
+              child: Text(
+                'Copyright © Farletza 2023',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontSize: 12,
+                  color: Color(0xff707070),
+                ),
+                textAlign: TextAlign.center,
+                softWrap: false,
+              ),
+            ),
+          ])),
     );
   }
 
@@ -401,8 +426,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void loadPagina() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    LineaNegocio = prefs.getString("LineaNegocio") ?? "";
-    token = prefs.getString("token") ?? "";
+    LineaNegocio = prefs.getString("lineaNegocio") ?? "";
+    token = prefs.getString("access") ?? "";
     correo = prefs.getString("email") ?? "";
     NombreUsuario = prefs.getString("full_name") ?? "";
 
@@ -410,14 +435,12 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _loadView() async {
-    //  final opcionvenes = Constants.nombreVendedor;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    LineaNegocio = prefs.getString("LineaNegocio") ?? "";
+    LineaNegocio = prefs.getString("lineaNegocio") ?? "";
 
-    //opciones.forEach((opcionesModel) {
     if (LineaNegocio.contains("IMP")) {
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 0,
+        selected: _selectedDestination == 1,
         leading: SvgPicture.asset('assets/svg/campana_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -431,6 +454,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         onTap: () {
+          selectDestination(0);
           MaterialPageRoute route;
           route = MaterialPageRoute(
               builder: (BuildContext context) => notificacionIMPPage());
@@ -439,7 +463,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ));
 
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 1,
+        selected: _selectedDestination == 2,
         leading: SvgPicture.asset('assets/svg/lista_ubicacion_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -453,6 +477,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         onTap: () {
+          selectDestination(1);
           MaterialPageRoute route;
           route = MaterialPageRoute(
               builder: (BuildContext context) => notificacionIMPPage());
@@ -460,7 +485,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 2,
+        selected: _selectedDestination == 3,
         leading: SvgPicture.asset(
           'assets/svg/libreta_visto_gris.svg',
           color: const Color(0xff004172),
@@ -483,7 +508,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 3,
+        selected: _selectedDestination == 4,
         leading: SvgPicture.asset('assets/svg/transmision_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -504,7 +529,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 4,
+        selected: _selectedDestination == 5,
         leading: SvgPicture.asset('assets/svg/hoja_reloj_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -528,7 +553,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
     if (LineaNegocio.contains("EXP")) {
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 0,
+        selected: _selectedDestination == 1,
         leading: SvgPicture.asset('assets/svg/campana_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -549,7 +574,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 1,
+        selected: _selectedDestination == 2,
         leading: SvgPicture.asset('assets/svg/transmision_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -570,7 +595,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
       _viewApp.add(ListTile(
-        selected: _selectedDestination == 2,
+        selected: _selectedDestination == 3,
         leading: SvgPicture.asset('assets/svg/hoja_reloj_gris.svg',
             color: const Color(0xff004172)),
         trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xff004172)),
@@ -593,8 +618,6 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  // );
-  //}
   void selectDestination(int index) {
     setState(() {
       _selectedDestination = index;

@@ -38,10 +38,13 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'APPSENAE',
           builder: BotToastInit(),
-          //theme: ThemesToe.getThemeDefault(),
           initialRoute: '/',
           onGenerateRoute: AppRouter().onGenerateRoute,
           theme: ThemeData(
+            brightness: Brightness.light,
+            primaryColor: Colors.lightBlue[800],
+          ),
+          darkTheme: ThemeData(
             brightness: Brightness.dark,
             primaryColor: Colors.lightBlue[800],
           ),

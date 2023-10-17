@@ -17,7 +17,7 @@ class SenaeException implements Exception {
     } else if (e is SenaeException) {
       _instance = e;
     } else {
-      _instance = SenaeException(code: 'unexpected_error');
+      _instance = SenaeException(code: 'errors');
     }
 
     return _instance;

@@ -142,7 +142,7 @@ class _LoginWidgetState extends State<_LoginWidget> {
                               hintText: 'Ingrese su correo',
                               hintStyle: TextStyle(
                                 fontFamily: 'Roboto',
-                                fontSize: 14,
+                                fontSize: 12,
                                 color: Color(0xffa1b2c3),
                                 fontStyle: FontStyle.italic,
                               ),
@@ -192,7 +192,7 @@ class _LoginWidgetState extends State<_LoginWidget> {
                         hintText: 'Ingrese su contraseña',
                         hintStyle: const TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 14,
+                          fontSize: 12,
                           color: Color(0xffa1b2c3),
                           fontStyle: FontStyle.italic,
                         ),

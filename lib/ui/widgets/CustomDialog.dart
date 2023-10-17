@@ -139,12 +139,12 @@ class CustomDialog extends StatelessWidget {
   }
 
   _Validate(BuildContext context, String value) async {
-    final result =
+    /*   final result =
         await context.read<LoginViewModel>().verificateCode(code: value);
     if (result.state == ResultState.exception) {
       BotToast.showText(text: "Codigo invalido");
       return;
-    }
+    } */
     Navigator.pushNamed(context, '/home');
   }
 }
